@@ -14,7 +14,7 @@ ___INFO___
   "version": 1,
   "securityGroups": [],
   "displayName": "Criteo Tag",
-  "categories": ["MARKETING,"REMARKETING","ADVERTISING"],
+  "categories": ["MARKETING","REMARKETING","ADVERTISING"],
   "brand": {
     "id": "brand_dummy",
     "displayName": "",
