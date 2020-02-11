@@ -1,3 +1,11 @@
+___TERMS_OF_SERVICE___
+
+By creating or modifying this file you agree to Google Tag Manager's Community
+Template Gallery Developer Terms of Service available at
+https://developers.google.com/tag-manager/gallery-tos (or such other URL as
+Google may provide), as modified from time to time.
+
+
 ___INFO___
 
 {
@@ -6,7 +14,7 @@ ___INFO___
   "version": 1,
   "securityGroups": [],
   "displayName": "Criteo Tag",
-  "categories": ["ADVERTISING","MARKETING","REMARKETING"],
+  "categories": ["MARKETING","REMARKETING","ADVERTISING"],
   "brand": {
     "id": "brand_dummy",
     "displayName": "",
@@ -499,7 +507,12 @@ function getProducts(){
 //Find page type [event, Event, PageType, pageType, etc] in initial stages
 function findPageType(){
   if(pageType){
-    return pageType;
+    let url = require('getUrl')("path");
+    if(url==="/aw-thank-you"){
+      return "transaction";
+    }else{
+      return pageType;
+    }
   }else
   	return "home";
 }
@@ -550,8 +563,9 @@ function getListingData(){
 function getBasketData(){
   let products = []; 
   let cartItems = getProducts();    
-  cartItems.forEach(function(item){ 
-	products.push({id: item.id, price: item.price, quantity: item.quantity});
+  cartItems.forEach(function(item){
+    let listing = getProductVars(item);
+	products.push({id: listing.id, price: listing.price, quantity: 1});
 	printer(true,false,false,false,item.id);
   });
   if(products.length<1){
@@ -564,13 +578,34 @@ function getSalesData(){
   let products = [];
   let cartItems = getProducts();
   cartItems.forEach(function(item){ 
-	products.push({id: item.id, price: item.price, quantity: item.quantity});
+	let listing = getProductVars(item);
+	products.push({id: listing.id, price: listing.price, quantity: 1});
 	printer(true,false,false,false,item.id);
   });
   if(products.length<1){
 	printer(false,"getSalesData",pageType,5,false);
   }
   return products;
+}
+function getProductVars(offering){
+  switch(offering){
+    case "Under $8,000":
+      return {price: 5, id: "Under $8,000"};
+    case "$8,000-$13,999":
+      return {price: 150, id: "$8,000-$13,999"};
+    case "$14,000-$19,999":
+      return {price: 350, id: "$14,000-$19,999"};
+    case "$20,000-$29,999":
+      return {price: 700, id: "$20,000-$29,999"};
+    case "$30,000-$44,999":
+      return {price: 1400, id: "$30,000-$44,999"};
+    case "$45,000-$59,999":
+      return {price: 2800, id: "$45,000-$59,999"};
+    case "$60,000-$79,999":
+      return {price: 5600, id: "$60,000-$79,999"};
+    case "$80,000 or more":
+      return {price: 11200, id: "$80,000 or more"};
+  }
 }
 //Gets the transaction ID if one exists or generates a transaction Id if none exist
 function getTransactionId(){
@@ -771,6 +806,31 @@ ___WEB_PERMISSIONS___
         "versionId": "1"
       },
       "param": []
+    },
+    "isRequired": true
+  },
+  {
+    "instance": {
+      "key": {
+        "publicId": "get_url",
+        "versionId": "1"
+      },
+      "param": [
+        {
+          "key": "urlParts",
+          "value": {
+            "type": 1,
+            "string": "any"
+          }
+        },
+        {
+          "key": "queriesAllowed",
+          "value": {
+            "type": 1,
+            "string": "any"
+          }
+        }
+      ]
     },
     "isRequired": true
   }
