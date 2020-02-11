@@ -1,0 +1,5 @@
+homepage: "https://www.criteo.com/"
+documentation: "https://www.example.com/documentation"
+versions:
+  - sha: 8c21353248d1908d01b28cb1362513fe57f8f729
+    changeNotes: Initial release.
